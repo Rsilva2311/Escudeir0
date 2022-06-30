@@ -7,12 +7,63 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Action {
+model Description {
   id          String   @id @default(uuid())
   name        String
   description String
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+  ClassDescriptions ClassDescription[]
 
-  @@map("actions")
+  @@map("descriptions")
+}
+
+model ClassDescription {
+  id          String   @id @default(uuid())
+  name        String
+  description String
+  level       Int
+  actionTime  String
+  recovery    String
+  descriptions Description? @relation(fields: [descriptionId], references: [id])
+  descriptionId String
+  class       Class[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("classDescriptions")
+}
+
+model Class {
+  id          String   @id @default(uuid())
+  name        String
+  classDescriptions ClassDescription? @relation(fields: [classDescriptionId], references: [id])
+  classDescriptionId  String
+  classCharacter  ClassCharacter[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("classes")
+}
+model ClassCharacter {
+  id          String   @id @default(uuid())
+  level       Int
+  ClassesCharacter Class? @relation(fields: [classId], references: [id])
+  classId  String
+  Characters Character? @relation(fields: [characterId], references: [id])
+  characterId  String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("classesCharacter")
+}
+
+model Character {
+  id          String   @id @default(uuid())
+  level       Int
+  classCharacter ClassCharacter[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("characters")
 }

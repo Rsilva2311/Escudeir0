@@ -1,5 +1,4 @@
 import { prisma } from '../database/prismaClient.js'
-
 export class ActionController {
   async incluir( request, response) {
     const { name, description } = request.body;
