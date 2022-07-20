@@ -11,23 +11,22 @@ model Description {
   id          String   @id @default(uuid())
   name        String
   description String
+  classesDescriptions ClassDescription[]
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
-  ClassDescriptions ClassDescription[]
 
   @@map("descriptions")
 }
 
 model ClassDescription {
   id          String   @id @default(uuid())
-  name        String
-  description String
   level       Int
   actionTime  String
   recovery    String
-  descriptions Description? @relation(fields: [descriptionId], references: [id])
+  Descriptions Description? @relation(fields: [descriptionId], references: [id])
   descriptionId String
-  class       Class[]
+  classesDescription Class? @relation(fields: [classDescriptionId], references: [id], onDelete: Cascade)
+  classDescriptionId  String
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
@@ -37,9 +36,8 @@ model ClassDescription {
 model Class {
   id          String   @id @default(uuid())
   name        String
-  classDescriptions ClassDescription? @relation(fields: [classDescriptionId], references: [id])
-  classDescriptionId  String
-  classCharacter  ClassCharacter[]
+  classDescriptions ClassDescription[]
+  classesCharacter  ClassCharacter[]
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
@@ -48,10 +46,10 @@ model Class {
 model ClassCharacter {
   id          String   @id @default(uuid())
   level       Int
-  ClassesCharacter Class? @relation(fields: [classId], references: [id])
-  classId  String
-  Characters Character? @relation(fields: [characterId], references: [id])
-  characterId  String
+  classes Class? @relation(fields: [classesId], references: [id])
+  classesId  String
+  CharacterClasses Character? @relation(fields: [characterClassId], references: [id])
+  characterClassId  String
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
@@ -61,7 +59,7 @@ model ClassCharacter {
 model Character {
   id          String   @id @default(uuid())
   level       Int
-  classCharacter ClassCharacter[]
+  characterClasses ClassCharacter []
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 

@@ -1,14 +1,36 @@
 import { Router } from "express"
-import { ActionController } from "./controller/actionController.js";
+import { DescriptionController } from "./controller/DescriptionController.js";
+import { CharacterController } from "./controller/CharacterController.js";
+import { ClassController } from "./controller/ClassController.js";
 
 const router = Router()
-const createAction = new ActionController()
+const description = new DescriptionController()
+const character = new CharacterController()
+const classes = new ClassController()
 
-router.get("/listarAction", createAction.listar)
-router.get("/listarActionPorId", createAction.listarPorId)
-router.post("/incluirAction", createAction.incluir)
-router.put("/atualizarAction", createAction.atualizar)
-router.delete("/excluirAction", createAction.excluir)
-router.delete("/excluirDadosAction", createAction.excluirDados)
+//Descriptions
+router.get("/listarDescription", description.listar)
+router.get("/listarDescriptionPorId", description.listarPorId)
+router.post("/incluirDescription", description.incluir)
+router.put("/atualizarDescription", description.atualizar)
+router.delete("/excluirDescription", description.excluir)
+router.delete("/excluirDadosDescription", description.excluirDados)
+
+//Character
+router.get("/listarcharacter", character.listar)
+router.get("/listarcharacterPorId", character.listarPorId)
+router.post("/incluircharacter", character.incluir)
+router.put("/atualizarcharacter", character.atualizar)
+router.delete("/excluircharacter", character.excluir)
+router.delete("/excluirDadoscharacter", character.excluirDados)
+
+//Classes
+router.get("/listarclass", classes.listar)
+router.get("/listarclassPorId", classes.listarPorId)
+router.post("/incluirclass", classes.incluir)
+router.put("/atualizarclass", classes.atualizar)
+router.put("/atualizarHabilidadeClasse", classes.atualizarHabilidadeClasse)
+router.delete("/excluirclass", classes.excluir)
+router.delete("/excluirDadosclass", classes.excluirDados)
 
 export { router }

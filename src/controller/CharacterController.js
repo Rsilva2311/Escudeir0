@@ -1,48 +1,49 @@
 import { prisma } from '../database/prismaClient.js'
-export class ActionController {
+
+export class CharacterController {
   async incluir( request, response) {
     const { name, description } = request.body;
-    const action = await prisma.action.create({
+    const Character = await prisma.character.create({
       data: {
         name,
         description
       }
     })
-    return response.json(action);
+    return response.json(Character);
   }
   async atualizar( request, response) {
     const { id, name, description } = request.body;
-    const action = await prisma.action.update({
+    const Character = await prisma.character.update({
       where: { id },
       data: {
         name,
         description
       }
     })
-    return response.json(action);
+    return response.json(Character);
   }
   async excluir( request, response) {
     const { id } = request.body;
-    const action = await prisma.action.delete({
+    const character = await prisma.character.delete({
       where: { id }
     })
-    return response.json(action);
+    return response.json(character);
   }
   async excluirDados( request, response) {
-    const action = await prisma.action.deleteMany({
+    const character = await prisma.character.deleteMany({
     })
-    return response.json(action);
+    return response.json(character);
   }
   async listar( request, response) {
-    const action = await prisma.action.findMany({
+    const character = await prisma.character.findMany({
     })
-    return response.json(action);
+    return response.json(character);
   }
   async listarPorId( request, response) {
     const { id } = request.body;
-    const action = await prisma.action.findUnique({
+    const character = await prisma.character.findUnique({
       where: { id }
     })
-    return response.json(action);
+    return response.json(character);
   }
 }
