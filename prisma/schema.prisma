@@ -12,6 +12,7 @@ model Description {
   name        String
   description String
   classesDescriptions ClassDescription[]
+  archetypesDescriptions ArchetypeDescription[]
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
@@ -43,11 +44,38 @@ model Class {
 
   @@map("classes")
 }
+model ArchetypeDescription {
+  id          String   @id @default(uuid())
+  level       Int
+  actionTime  String
+  recovery    String
+  Descriptions Description? @relation(fields: [descriptionId], references: [id])
+  descriptionId String
+  archetypesDescription Archetype? @relation(fields: [archetypeDescriptionId], references: [id], onDelete: Cascade)
+  archetypeDescriptionId  String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("archetypeDescriptions")
+}
+
+model Archetype {
+  id          String   @id @default(uuid())
+  name        String
+  ArchetypeDescriptions ArchetypeDescription[]
+  classesCharacter  ClassCharacter[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("archetypes")
+}
 model ClassCharacter {
   id          String   @id @default(uuid())
   level       Int
   classes Class? @relation(fields: [classesId], references: [id])
   classesId  String
+  archetypes Archetype? @relation(fields: [archetypeId], references: [id])
+  archetypeId String
   CharacterClasses Character? @relation(fields: [characterClassId], references: [id])
   characterClassId  String
   createdAt   DateTime @default(now())
@@ -56,10 +84,53 @@ model ClassCharacter {
   @@map("classesCharacter")
 }
 
+model Alignment {
+  id String @id @default(uuid())
+  name String
+}
+
+model Atribute {
+  id String @id @default(uuid())
+  name String
+  value Int
+  CharacterAtributes Character? @relation(fields: [characterId], references: [id])
+  characterId  String
+  @@map("atributes")
+}
+
+model Skill {
+    id String @id @default(uuid())
+    name String
+    atributeId Int
+    skillsChacater SkillCharacter[]
+
+    @@map("skilss")
+}
+
+model SkillCharacter {
+  id String @id @default(uuid())
+  skillsCharacter Skill? @relation(fields: [skillsCharacterId], references: [id])
+  skillsCharacterId  String
+  CharacterSkills Character? @relation(fields: [characterSkillId], references: [id])
+  characterSkillId  String
+  proficiency Boolean
+  jackOfAllTrades Boolean
+  expertise Boolean
+
+  @@map("skillsCharacter")
+}
+
 model Character {
   id          String   @id @default(uuid())
   level       Int
   characterClasses ClassCharacter []
+  characterSkills SkillCharacter []
+  characterAtributes Atribute []
+  proficiencyBonus Int
+  inspiration Boolean
+  alignmentId Int
+  backgroundId Int
+  name String
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
